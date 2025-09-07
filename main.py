@@ -20,7 +20,7 @@ except Exception as e:
 
 # --- GEMINI BOT LOGIC ---
 SYSTEM_PROMPT_TEMPLATE = (
-    "You are MediBot, a soft-spoken, empathetic medical advisory assistant.\n"
+    "You are Mr. Vaidya, a soft-spoken, empathetic medical advisory assistant.\n"
     "- Speak in a caring, calm tone.\n"
     "- Your primary role is to provide general, educational information about symptoms and conditions.\n"
     "- DO NOT provide any diagnoses, prescriptions, or definitive medical advice. This is crucial.\n"
@@ -30,7 +30,7 @@ SYSTEM_PROMPT_TEMPLATE = (
     "- End every response with the disclaimer: '⚠️ This is not a substitute for professional medical consultation.'\n\n"
 )
 
-def get_medibot_reply(messages: List[Dict], language: str = "English", attachment_b64: str = None) -> str:
+def get_mr_vaidya_reply(messages: List[Dict], language: str = "English", attachment_b64: str = None) -> str:
     """Calls Gemini and returns the assistant reply as text."""
     try:
         model = genai.GenerativeModel("gemini-1.5-flash")
@@ -82,11 +82,11 @@ def get_medibot_reply(messages: List[Dict], language: str = "English", attachmen
             return "Sorry, I couldn't generate a response. Please try again."
 
     except Exception as e:
-        st.error(f"Error calling MediBot: {e}") 
+        st.error(f"Error calling Gemini: {e}") 
         return "An internal error occurred. Please try again."
 
 # --- STREAMLIT APP LAYOUT ---
-st.set_page_config(page_title="MediBot", layout="wide")
+st.set_page_config(page_title="Mr. Vaidya", layout="wide")
 
 # Custom CSS for chat bubbles to ensure visibility
 st.markdown("""
@@ -99,7 +99,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🩺 MediBot: Your Health Assistant")
+st.title("🩺 Mr. Vaidya: Your Health Assistant")
 st.markdown("---")
 
 # --- SESSION STATE MANAGEMENT ---
@@ -113,7 +113,7 @@ chat_col, control_col = st.columns([4, 1])
 with chat_col:
     if st.session_state.messages:
         for msg in st.session_state.messages:
-            role = "💬 You" if msg.get("role") == "user" else "🤖 MediBot"
+            role = "💬 You" if msg.get("role") == "user" else "🤖 Mr. Vaidya"
             bubble_class = "user-bubble" if msg.get("role") == "user" else "assistant-bubble"
             content = msg.get("content", "")
             st.markdown(
@@ -144,8 +144,8 @@ if submitted and user_input.strip():
     user_msg = { "role": "user", "content": user_input.strip() }
     st.session_state.messages.append(user_msg)
     
-    with st.spinner("MediBot is analyzing…"):
-        reply_text = get_medibot_reply(st.session_state.messages, "English", attachment_b64)
+    with st.spinner("Mr. Vaidya is analyzing…"):
+        reply_text = get_mr_vaidya_reply(st.session_state.messages, "English", attachment_b64)
         bot_msg = { "role": "assistant", "content": reply_text }
         st.session_state.messages.append(bot_msg)
     
