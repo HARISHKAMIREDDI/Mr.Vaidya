@@ -1,7 +1,3 @@
-streamlit==1.30.0
-google-generativeai==0.10.0
-dotenv
-typing
-os
-base64
-html
+streamlit
+google-generativeai
+python-dotenv
